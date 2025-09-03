@@ -3,7 +3,7 @@ import SEO from '@/components/SEO';
 import HeaderBar from '@/components/HeaderBar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import TradingViewWidget from '@/components/TradingViewWidget';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -16,8 +16,6 @@ import { useAuth } from '@/store/auth';
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { Wallet } from '@/types/models';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { Line, LineChart, XAxis, YAxis } from 'recharts';
 import MarketHeader from '@/components/MarketHeader';
 import SendToBankModal from '@/components/SendToBankModal';
 import SendToCryptoModal from '@/components/SendToCryptoModal';
@@ -42,59 +40,6 @@ interface CoinData {
   price_change_percentage_24h: number;
   total_volume: number;
 }
-const perfData = [{
-  m: 'Feb',
-  price: 92000
-}, {
-  m: 'Mar',
-  price: 88000
-}, {
-  m: 'Apr',
-  price: 93000
-}, {
-  m: 'May',
-  price: 97000
-}, {
-  m: 'Jun',
-  price: 99000
-}, {
-  m: 'Jul',
-  price: 112000
-}, {
-  m: 'Aug',
-  price: 116000
-}];
-const topCoins = [{
-  name: 'Bitcoin',
-  sym: 'BTC',
-  price: '$118,621',
-  change: '+0.35%',
-  vol: '$61.7B'
-}, {
-  name: 'Ethereum',
-  sym: 'ETH',
-  price: '$4,232.8',
-  change: '+0.12%',
-  vol: '$41.7B'
-}, {
-  name: 'XRP',
-  sym: 'XRP',
-  price: '$3.14',
-  change: '-1.55%',
-  vol: '$8.3B'
-}, {
-  name: 'Tether',
-  sym: 'USDT',
-  price: '$1',
-  change: '-0.01%',
-  vol: '$113.7B'
-}, {
-  name: 'BNB',
-  sym: 'BNB',
-  price: '$805.34',
-  change: '+0.46%',
-  vol: '$1.6B'
-}];
 export default function Overview() {
   const {
     user
@@ -118,29 +63,13 @@ export default function Overview() {
   const walletAddress = '34x6gZBQCJqkfNVvDru68EvTZNaRm3FTB2';
   const balance = wallets?.reduce((s, w) => s + w.usdEquivalent, 0) ?? 0;
 
-  // Pair selection controlling TradingView
+  // Pair selection for MarketHeader
   const [base, setBase] = useState<Currency>('BTC');
   const [quote, setQuote] = useState<Currency>('USDT');
   const onPairChange = (b: Currency, q: Currency) => {
     setBase(b);
     setQuote(q);
   };
-  const mapPairToSymbol = (b: Currency, q: Currency) => {
-    if (b === q) return 'COINBASE:BTCUSD';
-    const isFiat = (x: string) => ['USD', 'EUR', 'GBP'].includes(x);
-    const isCrypto = (x: string) => ['BTC', 'ETH', 'USDT'].includes(x);
-
-    // Crypto quoted in USDT -> Binance
-    if (['BTC', 'ETH'].includes(b) && q === 'USDT') return `BINANCE:${b}${q}`;
-    // Crypto quoted in fiat -> Coinbase
-    if (['BTC', 'ETH'].includes(b) && isFiat(q)) return `COINBASE:${b}${q}`;
-    // Fiat/fiat -> FX index
-    if (isFiat(b) && isFiat(q)) return `FX_IDC:${b}${q}`;
-    // If base is USDT and quote is crypto, flip to a common symbol
-    if (b === 'USDT' && ['BTC', 'ETH'].includes(q)) return `BINANCE:${q}USDT`;
-    return 'COINBASE:BTCUSD';
-  };
-  const symbol = mapPairToSymbol(base, quote);
 
   // Define currencies in specific order with balances
   const currencies = [{
@@ -240,14 +169,7 @@ export default function Overview() {
 
           
 
-        <div>
-          <div className="pb-2">
-            <MarketHeader base={base} quote={quote} onChange={onPairChange} />
-          </div>
-          <div>
-            <TradingViewWidget symbol={symbol} interval="D" height={420} />
-          </div>
-        </div>
+          <MarketHeader base={base} quote={quote} onChange={onPairChange} />
 
           <Card>
             <CardHeader>
