@@ -1,7 +1,7 @@
 import { http, HttpResponse, delay } from 'msw';
 import type { ExchangeQuote, Transaction, User, Wallet, Currency } from '@/types/models';
 
-let token: string | null = null;
+let token: string | null = 'mock-token';
 
 const user: User = {
   id: 'u_001',
