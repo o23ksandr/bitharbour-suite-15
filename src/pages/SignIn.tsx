@@ -56,13 +56,8 @@ export default function SignIn() {
   return <>
       <SEO title="Sign in | BITHARBOUR" description="Sign in to BITHARBOUR – secure multi-currency wallet and exchange." />
       <div className="min-h-screen bg-background w-screen ml-[calc(50%-50vw)] mr-[calc(50%-50vw)]">
-        <div className="grid lg:grid-cols-2 min-h-screen w-full">
-          <aside className="relative hidden lg:block h-full" aria-hidden="true">
-            <div className="h-full w-full overflow-hidden rounded-2xl shadow">
-              <img src="/lovable-uploads/ac46510d-16bc-4d37-b78d-6d57af376ef7.png" alt="Trading platform interface displayed on desktop and mobile devices" className="h-full w-full object-cover" loading="lazy" />
-            </div>
-          </aside>
-          <main className="flex items-center justify-center h-full p-6 lg:p-0">
+        <div className="flex items-center justify-center min-h-screen w-full">
+          <main className="flex items-center justify-center h-full p-6">
             <Card className="w-full max-w-md border-0 bg-transparent shadow-none">
               <CardHeader>
                 <CardTitle className="text-xl">Sign in to BITHARBOUR</CardTitle>
