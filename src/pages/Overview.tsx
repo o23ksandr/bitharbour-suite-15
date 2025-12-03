@@ -12,7 +12,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { Copy, QrCode, MoreVertical } from 'lucide-react';
-import { useAuth } from '@/store/auth';
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { Wallet } from '@/types/models';
@@ -40,10 +39,13 @@ interface CoinData {
   price_change_percentage_24h: number;
   total_volume: number;
 }
+const user = {
+  fullName: 'Alex Morgan',
+  accountId: 'BH-482913',
+  status: 'Activated',
+};
+
 export default function Overview() {
-  const {
-    user
-  } = useAuth();
   const [sendToBankModalOpen, setSendToBankModalOpen] = useState(false);
   const [sendToCryptoModalOpen, setSendToCryptoModalOpen] = useState(false);
   const [coinsData, setCoinsData] = useState<CoinData[]>([]);
