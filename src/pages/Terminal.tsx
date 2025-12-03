@@ -13,7 +13,6 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/store/auth';
 import SendToBankModal from '@/components/SendToBankModal';
 import SendToCryptoModal from '@/components/SendToCryptoModal';
 async function fetchJSON<T>(url: string) {
@@ -21,13 +20,16 @@ async function fetchJSON<T>(url: string) {
   if (!res.ok) throw new Error('Request failed');
   return (await res.json()) as T;
 }
+const user = {
+  fullName: 'Alex Morgan',
+  accountId: 'BH-482913',
+  status: 'Activated',
+};
+
 export default function Dashboard() {
   const {
     toast
   } = useToast();
-  const {
-    user
-  } = useAuth();
   const qc = useQueryClient();
   const {
     data: wallets
