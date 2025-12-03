@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
-import { Bell, HelpCircle, ChevronDown, Menu } from 'lucide-react';
+import { Bell, HelpCircle, ChevronDown, Menu, X } from 'lucide-react';
+import { useAuth } from '@/store/auth';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -7,13 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { useState } from 'react';
-
-const user = {
-  fullName: 'Alex Morgan',
-  accountId: 'BH-482913',
-};
-
 export default function HeaderBar() {
+  const {
+    user,
+    signOut
+  } = useAuth();
+  
   const [isOpen, setIsOpen] = useState(false);
   
   const [notifications] = useState([
@@ -137,9 +137,10 @@ export default function HeaderBar() {
           </button>
           <div className="flex items-center gap-3 pl-3 ml-3 border-l">
             <div className="text-sm">
-              <div className="font-medium leading-none">{user.fullName}</div>
-              <div className="text-muted-foreground text-xs">{user.accountId}</div>
+              <div className="font-medium leading-none">{user?.fullName}</div>
+              <div className="text-muted-foreground text-xs">{user?.accountId}</div>
             </div>
+            <Button variant="outline" size="sm" onClick={signOut}>Sign out</Button>
           </div>
         </nav>
 
@@ -159,8 +160,8 @@ export default function HeaderBar() {
               {/* User Info */}
               <div className="flex items-center gap-3 pb-4 border-b">
                 <div className="text-sm">
-                  <div className="font-medium leading-none">{user.fullName}</div>
-                  <div className="text-muted-foreground text-xs">{user.accountId}</div>
+                  <div className="font-medium leading-none">{user?.fullName}</div>
+                  <div className="text-muted-foreground text-xs">{user?.accountId}</div>
                 </div>
               </div>
 
@@ -230,6 +231,9 @@ export default function HeaderBar() {
                   <HelpCircle className="h-5 w-5" />
                   <span>Help</span>
                 </button>
+                <Button variant="outline" onClick={signOut} className="w-full">
+                  Sign out
+                </Button>
               </div>
             </div>
           </SheetContent>

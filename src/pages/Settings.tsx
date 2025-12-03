@@ -10,23 +10,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { useState, useEffect, useRef } from 'react';
+import { useAuth } from '@/store/auth';
 import ChangePhotoModal from '@/components/ChangePhotoModal';
 import { Copy, RotateCcw } from 'lucide-react';
 import QRCode from 'qrcode';
-
-const user = {
-  fullName: 'Alex Morgan',
-  accountId: 'BH-482913',
-  status: 'Activated',
-  address: { street: '123 Harbor St', country: 'US', city: 'Miami', postalCode: '33101' },
-};
-
 export default function Settings() {
   const [activeSection, setActiveSection] = useState('general');
   const [isChangePhotoModalOpen, setIsChangePhotoModalOpen] = useState(false);
   const [selectedCrypto, setSelectedCrypto] = useState<string | null>(null);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const {
+    user
+  } = useAuth();
 
   // Handle URL hash changes
   useEffect(() => {
